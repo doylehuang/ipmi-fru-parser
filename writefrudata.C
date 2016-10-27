@@ -19,6 +19,9 @@ const char  *sys_bus_name      =  "org.openbmc.managers.System";
 const char  *sys_object_name   =  "/org/openbmc/managers/System";
 const char  *sys_intf_name     =  "org.openbmc.managers.System";
 
+#define __IPMI_DEBUG__
+
+
 //----------------------------------------------------------------
 // Constructor
 //----------------------------------------------------------------
@@ -80,6 +83,8 @@ void ipmi_fru::update_dbus_paths(const char *bus_name,
     iv_bus_name = bus_name;
     iv_obj_path = obj_path;
     iv_intf_name = intf_name;
+
+    printf("[@@Debug@@] [%s, %d] bus_name:%s, obj_path:%s, intf_name:%s",__FUNCTION__, __LINE__, iv_bus_name, iv_obj_path, iv_intf_name);
 }
 
 //-------------------
@@ -192,6 +197,9 @@ int ipmi_fru::setup_sd_bus_paths(void)
                             "ss",                       // input message (string,string)
                             "FRU_STR",                  // First argument to getObjectFromId
                             fru_area_name);             // Second Argument
+
+    printf("[@@Debug@@] [%s, %d] sys_object_name:%s, sys_intf_name:%s",__FUNCTION__, __LINE__, sys_object_name, sys_intf_name);
+
     if(rc < 0)
     {
         fprintf(stderr, "Failed to resolve fruid:[%d] to dbus: [%s]\n", iv_fruid, bus_error.message);
@@ -355,6 +363,9 @@ int ipmi_update_inventory(fru_area_vec_t & area_vec)
                                             (iter)->get_obj_path(),
                                             (iter)->get_intf_name(),
                                             "update");
+
+	    printf("[@@Debug@@] [%s, %d] get_bus_name:%s, get_obj_path:%s, get_intf_name:%s",__FUNCTION__, __LINE__, (iter)->get_bus_name(), (iter)->get_obj_path(), 
+			(iter)->get_intf_name());
         if(rc < 0)
         {
             fprintf(stderr,"ERROR: creating a update method call for bus_name:[%s]\n",

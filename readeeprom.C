@@ -62,6 +62,7 @@ int main(int argc, char **argv)
         // Now that we have the file that contains the eeprom data, go read it and
         // update the Inventory DB.
         bool bmc_fru = true;
+        printf("[@@Debug@@] [%s, %d] Readeeprom.cpp\n", __FUNCTION__, __LINE__);
         rc = ipmi_validate_fru_area(fruid, eeprom_file.c_str(), bus_type, bmc_fru);
     }
 
